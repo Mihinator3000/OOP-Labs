@@ -1,9 +1,12 @@
+using Isu.Entities;
+using Isu.Entities.GroupInfo;
 using Isu.Services;
 using Isu.Tools;
 using NUnit.Framework;
 
 namespace Isu.Tests
 {
+    [TestFixture]
     public class Tests
     {
         private IIsuService _isuService;
@@ -11,14 +14,21 @@ namespace Isu.Tests
         [SetUp]
         public void Setup()
         {
-            //TODO: implement
-            _isuService = null;
+            _isuService = new IsuService();
+            _isuService.AddGroup(new GroupName("M3105"));
         }
 
         [Test]
         public void AddStudentToGroup_StudentHasGroupAndGroupContainsStudent()
         {
-            Assert.Fail();
+            Group group = _isuService.AddGroup(new GroupName("M3106"));
+            _isuService.AddStudent(group, "Alice");
+
+            Assert.IsTrue(_isuService.FindGroup(new GroupName("M3106")).
+                Contains("Alice"));
+
+            Assert.IsTrue(_isuService.FindStudent("Alice").
+                IsInGroup(new GroupName("M3106")));
         }
 
         [Test]
@@ -26,7 +36,11 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-                
+                Group group = _isuService.FindGroup(new GroupName("M3105"));
+                for (int i = 0; i < 50; i++)
+                {
+                    _isuService.AddStudent(group, $"Student ¹{i}");
+                }
             });
         }
 
@@ -35,17 +49,22 @@ namespace Isu.Tests
         {
             Assert.Catch<IsuException>(() =>
             {
-
+                _isuService.AddGroup(new GroupName("M42052"));
             });
         }
 
         [Test]
         public void TransferStudentToAnotherGroup_GroupChanged()
         {
-            Assert.Catch<IsuException>(() =>
-            {
+            Group group = _isuService.AddGroup(new GroupName("M3106"));
+            _isuService.AddStudent(group, "Alice");
+            
+            Student student = _isuService.FindStudent("Alice");
+            _isuService.ChangeStudentGroup(student, 
+                _isuService.FindGroup(new GroupName("M3105")));
 
-            });
+            Assert.IsFalse(student.IsInGroup(new GroupName("M3106")));
+            Assert.IsTrue(student.IsInGroup(new GroupName("M3105")));
         }
     }
 }
