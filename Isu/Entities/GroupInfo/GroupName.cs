@@ -6,7 +6,6 @@ namespace Isu.Entities.GroupInfo
     public class GroupName : IEqual<GroupName>
     {
         private readonly GroupNumber _groupNumber;
-
         public GroupName(string name)
         {
             var regex = new Regex(@"^M3(\d)(\d{2})$");

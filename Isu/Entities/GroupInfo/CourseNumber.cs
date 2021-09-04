@@ -4,16 +4,15 @@ namespace Isu.Entities.GroupInfo
 {
     public class CourseNumber : IEqual<CourseNumber>
     {
+        private readonly int _number;
         public CourseNumber(string number)
         {
-            Number = Convert.ToInt32(number);
+            _number = Convert.ToInt32(number);
         }
-
-        public int Number { get; }
 
         public bool IsEqual(CourseNumber other)
         {
-            return Number == other.Number;
+            return _number == other._number;
         }
     }
 }
