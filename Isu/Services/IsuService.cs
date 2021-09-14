@@ -23,8 +23,7 @@ namespace Isu.Services
         public Student AddStudent(Group group, string name)
         {
             var student = new Student(name, group.Name);
-            int groupIndex = _groups.IndexOf(group);
-            _groups[groupIndex].AddStudent(student);
+            _groups.First(u => u == group).AddStudent(student);
             return student;
         }
 
