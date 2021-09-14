@@ -8,8 +8,7 @@ namespace Isu.Entities.GroupInfo
         private readonly GroupNumber _groupNumber;
         public GroupName(string name)
         {
-            var regex = new Regex(@"^M3(\d)(\d{2})$");
-            Match match = regex.Match(name);
+            Match match = new Regex(@"^M3(\d)(\d{2})$").Match(name);
             if (!match.Success)
             {
                 throw new IsuException(name);
