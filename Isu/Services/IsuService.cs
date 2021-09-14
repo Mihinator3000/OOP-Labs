@@ -77,8 +77,7 @@ namespace Isu.Services
 
         public Student GetStudent(int id)
         {
-            var regex = new Regex(@"^M3(\d{3})(\d+)$");
-            Match match = regex.Match(id.ToString());
+            Match match = new Regex(@"^M3(\d{3})(\d+)$").Match(id.ToString());
             if (!match.Success)
             {
                 throw new IsuException(id.ToString());
