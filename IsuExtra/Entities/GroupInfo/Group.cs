@@ -3,54 +3,24 @@ using System.Linq;
 using IsuExtra.Entities.Enums;
 using IsuExtra.Entities.People;
 using IsuExtra.Entities.Schedule;
-using IsuExtra.Tools;
 
 namespace IsuExtra.Entities.GroupInfo
 {
-    public class Group
+    public class Group : BaseGroup
     {
-        private const int MaxStudentPerGroup = 30;
-
-        public Group(GroupName name)
-        {
-            Name = name;
-        }
-
-        public Group(GroupName name, MegaFaculties megaFaculty)
-            : this(name)
-        {
-            MegaFaculty = megaFaculty;
-        }
-
         public Group(GroupName name, MegaFaculties megaFaculty, WeekSchedule schedule)
-            : this(name, megaFaculty)
+            : base(name, megaFaculty, schedule)
         {
-            Schedule = schedule;
-        }
-
-        public GroupName Name { get; }
-
-        public MegaFaculties MegaFaculty { get; }
-
-        public List<Student> Students { get; } = new ();
-
-        public WeekSchedule Schedule { get; }
-
-        public void AddStudent(Student student)
-        {
-            Students.Add(student);
-            if (Students.Count > MaxStudentPerGroup)
-                throw new IsuExtraException();
         }
 
         public Student FindStudent(string name)
         {
-            return Students.FirstOrDefault(u => u.Name == name);
+            return (Student)Group.FindStudent(name);
         }
 
         public bool Contains(string name)
         {
-            return FindStudent(name) != null;
+            return Group.Contains(name);
         }
 
         public List<Student> DoNotHaveOgNp()

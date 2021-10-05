@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using IsuExtra.Entities.GroupInfo;
-using IsuExtra.Entities.Subjects;
 using IsuExtra.Tools;
 
 namespace IsuExtra.Entities.People

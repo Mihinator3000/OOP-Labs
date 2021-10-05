@@ -5,7 +5,6 @@ using IsuExtra.Entities.Enums;
 using IsuExtra.Entities.GroupInfo;
 using IsuExtra.Entities.People;
 using IsuExtra.Entities.Schedule;
-using IsuExtra.Entities.Subjects;
 using IsuExtra.Tools;
 using GroupName = IsuExtra.Entities.GroupInfo.GroupName;
 

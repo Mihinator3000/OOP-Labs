@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IsuExtra.Entities.Enums;
 using IsuExtra.Entities.GroupInfo;
 using IsuExtra.Entities.People;
 using IsuExtra.Entities.Schedule;
-using IsuExtra.Entities.Subjects;
 using IsuExtra.Services;
 using IsuExtra.Tools;
 using NUnit.Framework;
@@ -111,7 +108,7 @@ namespace IsuExtra.Tests
             student.AddOgNp(ogNp);
             
             Assert.True(student.HasOgNp(ogNp));
-            Assert.True(_isuExtraService.FindOgNp("ComputerSecurity").EnrolledStudents().Contains(student));
+            Assert.True(_isuExtraService.FindOgNp("ComputerSecurity").Students.Contains(student));
         }
 
         [Test]

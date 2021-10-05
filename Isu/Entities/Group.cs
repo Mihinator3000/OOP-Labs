@@ -8,6 +8,7 @@ namespace Isu.Entities
     public class Group
     {
         private const int MaxStudentPerGroup = 30;
+
         public Group(GroupName name)
         {
             Name = name;
