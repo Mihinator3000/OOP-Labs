@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using IsuExtra.Entities.Enums;
 using IsuExtra.Entities.People;
 using IsuExtra.Entities.Schedule;
@@ -20,19 +21,8 @@ namespace IsuExtra.Entities.GroupInfo
 
         public GroupName Name => (GroupName)Group.Name;
 
-        public List<Student> Students
-        {
-            get
-            {
-                var students = new List<Student>();
-                Group.Students.ForEach(u =>
-                {
-                    students.Add((Student)u);
-                });
-
-                return students;
-            }
-        }
+        public List<Student> Students =>
+            Group.Students.Cast<Student>().ToList();
 
         protected Isu.Entities.Group Group { get; }
 
