@@ -108,7 +108,7 @@ namespace IsuExtra.Tests
             student.AddOgNp(ogNp);
             
             Assert.True(student.HasOgNp(ogNp));
-            Assert.True(_isuExtraService.FindOgNp("ComputerSecurity").Students.Contains(student));
+            Assert.True(_isuExtraService.FindOgNps(MegaFaculties.Tint)[0].Students.Contains(student));
         }
 
         [Test]

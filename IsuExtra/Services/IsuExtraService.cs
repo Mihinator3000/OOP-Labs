@@ -95,6 +95,11 @@ namespace IsuExtra.Services
             return _ogNps.FirstOrDefault(u => u.Name == name);
         }
 
+        public List<OgNp> FindOgNps(MegaFaculties megaFaculties)
+        {
+            return _ogNps.Where(u => u.MegaFaculty == megaFaculties).ToList();
+        }
+
         public void AddOgNp(string studentName, OgNp ogNp)
         {
             Group group = _groups.FirstOrDefault(u =>
