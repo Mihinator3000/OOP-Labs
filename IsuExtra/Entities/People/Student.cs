@@ -19,11 +19,7 @@ namespace IsuExtra.Entities.People
 
         public void AddOgNp(OgNp ogNp)
         {
-            string exceptionInfo = TryFindExceptions(ogNp);
-
-            if (!string.IsNullOrEmpty(exceptionInfo))
-                throw new IsuExtraException(exceptionInfo);
-
+            TryFindExceptions(ogNp);
             _ogNps.Add(ogNp);
             ogNp.AddStudent(this);
         }
@@ -60,20 +56,19 @@ namespace IsuExtra.Entities.People
             ChangeGroup(newGroup.Name);
         }
 
-        private string TryFindExceptions(OgNp ogNp)
+        private void TryFindExceptions(OgNp ogNp)
         {
             if (ogNp.MegaFaculty == _studentsGroup.MegaFaculty)
-                return "Same MegaFaculty";
+                throw new IsuExtraException("Same MegaFaculty");
 
             if (_ogNps.Count >= 2)
-                return "Max number of OgNps reached";
+                throw new IsuExtraException("Max number of OgNps reached");
 
             if (ogNp.Schedule.DoesIntersect(_studentsGroup.Schedule))
-                return "OgNp schedule intersect with group schedule";
+                throw new IsuExtraException("OgNp schedule intersect with group schedule");
 
-            return DoesIntersectWith_ogNps(ogNp) ?
-                "OgNp schedule intersect with another OgNp" :
-                null;
+            if (DoesIntersectWith_ogNps(ogNp))
+                throw new IsuExtraException("OgNp schedule intersect with another OgNp");
         }
 
         private bool DoesIntersectWith_ogNps(OgNp ogNp) =>
