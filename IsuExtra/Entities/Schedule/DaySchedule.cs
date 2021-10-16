@@ -13,7 +13,7 @@ namespace IsuExtra.Entities.Schedule
 
         public DaysOfTheWeek DayOfTheWeek { get; }
 
-        public List<TwoHourClass> Schedule { get; init; }
+        public List<Lesson> Schedule { get; init; }
 
         public bool DoesIntersect(DaySchedule daySchedule)
         {

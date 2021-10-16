@@ -2,9 +2,9 @@
 
 namespace IsuExtra.Entities.Schedule
 {
-    public class TwoHourClass
+    public class Lesson
     {
-        public TwoHourClass(
+        public Lesson(
             string name,
             string time,
             string teacherName,
@@ -24,7 +24,7 @@ namespace IsuExtra.Entities.Schedule
 
         public string Auditory { get; }
 
-        public bool DoesIntersect(TwoHourClass other) =>
+        public bool DoesIntersect(Lesson other) =>
             Time.DoesIntersect(other.Time);
     }
 }

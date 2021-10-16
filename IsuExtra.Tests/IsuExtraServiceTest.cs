@@ -25,7 +25,7 @@ namespace IsuExtra.Tests
                 {
                     new (DaysOfTheWeek.Mon)
                     {
-                       Schedule = new List<TwoHourClass>
+                       Schedule = new List<Lesson>
                        {
                            new ("Math", "10:00", "SomeGuy", "213A"),
                            new ("Math", "11:40", "SomeGuy", "213A"),
@@ -34,7 +34,7 @@ namespace IsuExtra.Tests
                     },
                     new (DaysOfTheWeek.Tue)
                     {
-                       Schedule = new List<TwoHourClass>
+                       Schedule = new List<Lesson>
                        {
                            new ("Systems", "8:20", "ThirdGuy", "105"),
                            new ("Systems", "10:00", "ThirdGuy", "105"),
@@ -44,7 +44,7 @@ namespace IsuExtra.Tests
                     },
                     new (DaysOfTheWeek.Wed)
                     {
-                       Schedule = new List<TwoHourClass>
+                       Schedule = new List<Lesson>
                        {
                            new ("English", "6:30", "EnglishGuy", "4012"),
                            new ("English", "8:20", "EnglishGuy", "4012"),
@@ -56,7 +56,7 @@ namespace IsuExtra.Tests
                     },
                     new (DaysOfTheWeek.Thu)
                     {
-                       Schedule = new List<TwoHourClass>
+                       Schedule = new List<Lesson>
                        {
                            new ("Math", "10:00", "SomeGuy", "213A"),
                            new ("Math", "11:40", "SomeGuy", "213A"),
@@ -65,7 +65,7 @@ namespace IsuExtra.Tests
                     },
                     new (DaysOfTheWeek.Fri)
                     {
-                       Schedule = new List<TwoHourClass>
+                       Schedule = new List<Lesson>
                        {
                            new ("Healthy sleep", "4:50", "SomeGuy", "213A"),
                            new ("Healthy sleep", "6:30", "SomeGuy", "213A"),
@@ -75,7 +75,7 @@ namespace IsuExtra.Tests
 
                     new (DaysOfTheWeek.Sat)
                     {
-                       Schedule = new List<TwoHourClass>
+                       Schedule = new List<Lesson>
                        {
                            new ("Healthy sleep", "10:00", "SomeGuy", "213A"),
                            new ("Healthy sleep", "11:40", "SomeGuy", "213A"),
@@ -97,7 +97,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sat)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("GitLecture", "18:00", "OtherGuy", "3222")
                         }
@@ -121,7 +121,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sat)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("GitLecture", "18:00", "OtherGuy", "3222")
                         }
@@ -148,7 +148,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sun)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("Java lecture", "20:00", "CupGuy", "104")
                         }
@@ -171,7 +171,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sat)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("GitLecture", "18:00", "OtherGuy", "3222")
                         }
@@ -179,7 +179,7 @@ namespace IsuExtra.Tests
 
                     new(DaysOfTheWeek.Wed)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("Security", "10:20", "RandomGuy", "4322")
                         }
@@ -202,7 +202,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sat)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("GitLecture", "18:00", "OtherGuy", "3222")
                         }
@@ -216,7 +216,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sun)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("LTS lecture", "19:00", "SomeDude", "43D")
                         }
@@ -230,7 +230,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sun)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("SMT lecture", "20:30", "SomeDude", "43D")
                         }
@@ -259,7 +259,7 @@ namespace IsuExtra.Tests
                     {
                         new(DaysOfTheWeek.Sat)
                         {
-                            Schedule = new List<TwoHourClass>
+                            Schedule = new List<Lesson>
                             {
                                 new("GitLecture", "30:00", "OtherGuy", "3222")
                             }
@@ -280,7 +280,7 @@ namespace IsuExtra.Tests
                     {
                         new(DaysOfTheWeek.Sat)
                         {
-                            Schedule = new List<TwoHourClass>
+                            Schedule = new List<Lesson>
                             {
                                 new("GitLecture", "10:00", "OtherGuy", "3222")
                             }
@@ -288,7 +288,7 @@ namespace IsuExtra.Tests
 
                         new(DaysOfTheWeek.Sat)
                         {
-                            Schedule = new List<TwoHourClass>
+                            Schedule = new List<Lesson>
                             {
                                 new("SMT lecture", "20:30", "SomeDude", "43D")
                             }
@@ -307,7 +307,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sat)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("GitLecture", "18:00", "OtherGuy", "3222")
                         }
@@ -324,7 +324,7 @@ namespace IsuExtra.Tests
                 {
                     new(DaysOfTheWeek.Sat)
                     {
-                        Schedule = new List<TwoHourClass>
+                        Schedule = new List<Lesson>
                         {
                             new("IntersectedLecture", "19:20", "SomeCTMDude", "432")
                         }
