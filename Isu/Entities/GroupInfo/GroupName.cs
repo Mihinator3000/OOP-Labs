@@ -5,7 +5,12 @@ namespace Isu.Entities.GroupInfo
 {
     public class GroupName : IEqual<GroupName>
     {
-        private readonly GroupNumber _groupNumber;
+        public GroupName(CourseNumber courseNumber, GroupNumber groupNumber)
+        {
+            CourseNumber = courseNumber;
+            GroupNumber = groupNumber;
+        }
+
         public GroupName(string name)
         {
             Match match = new Regex(@"^M3(\d)(\d{2})$").Match(name);
@@ -15,14 +20,20 @@ namespace Isu.Entities.GroupInfo
             }
 
             CourseNumber = new CourseNumber(match.Groups[1].Value);
-            _groupNumber = new GroupNumber(match.Groups[2].Value);
+            GroupNumber = new GroupNumber(match.Groups[2].Value);
         }
 
-        public CourseNumber CourseNumber { get; }
+        protected GroupName()
+        {
+        }
+
+        public CourseNumber CourseNumber { get; protected set; }
+
+        public GroupNumber GroupNumber { get; protected set; }
 
         public bool IsEqual(GroupName other)
         {
-            return _groupNumber.IsEqual(other._groupNumber) &&
+            return GroupNumber.IsEqual(other.GroupNumber) &&
                    CourseNumber.IsEqual(other.CourseNumber);
         }
     }

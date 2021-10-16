@@ -5,9 +5,10 @@ using Isu.Tools;
 
 namespace Isu.Entities
 {
-    public class Group : IEqual<Group>
+    public class Group
     {
         private const int MaxStudentPerGroup = 30;
+
         public Group(GroupName name)
         {
             Name = name;
@@ -22,11 +23,6 @@ namespace Isu.Entities
             Students.Add(student);
             if (Students.Count > MaxStudentPerGroup)
                 throw new IsuException();
-        }
-
-        public bool IsEqual(Group other)
-        {
-            return Name.IsEqual(other.Name);
         }
 
         public Student FindStudent(string name)
