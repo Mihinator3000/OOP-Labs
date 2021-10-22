@@ -8,7 +8,7 @@ namespace Backups.Algorithms
 {
     public class SingleStorageAlgorithm : IStorageAlgorithm
     {
-        public void Create(List<JobObject> jobObjects, Storage storage)
+        public void Create(List<IJobObject> jobObjects, IStorage storage)
         {
             string archivePath = storage.FullPath();
 
@@ -16,7 +16,7 @@ namespace Backups.Algorithms
                 throw new BackupsException(archivePath);
 
             ZipArchive archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
-            foreach (JobObject jobObject in jobObjects)
+            foreach (IJobObject jobObject in jobObjects)
             {
                 if (!File.Exists(jobObject.Path))
                     throw new BackupsException($"{jobObject.Path} does not exist");

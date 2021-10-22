@@ -2,14 +2,14 @@
 
 namespace Backups.Entities.Files
 {
-    public class JobObject
+    public class JobObject : IJobObject
     {
         public JobObject(string path)
         {
             Path = path;
         }
 
-        public string Path { get; set; }
+        public string Path { get; }
 
         public string Name =>
             System.IO.Path.GetFileName(Path);

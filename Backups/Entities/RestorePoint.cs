@@ -8,12 +8,12 @@ using Backups.Tools;
 
 namespace Backups.Entities
 {
-    public class RestorePoint
+    public class RestorePoint : IRestorePoint
     {
         private readonly StorageTypes _storageType;
         private readonly int _number;
 
-        public RestorePoint(List<JobObject> jobObjects, StorageTypes storageType, int number)
+        public RestorePoint(List<IJobObject> jobObjects, StorageTypes storageType, int number)
         {
             JobObjects = jobObjects;
             _storageType = storageType;
@@ -22,7 +22,7 @@ namespace Backups.Entities
 
         public DateTime CreationTime { get; private set; }
 
-        public List<JobObject> JobObjects { get; }
+        public List<IJobObject> JobObjects { get; }
 
         public void Create(string directoryPath)
         {

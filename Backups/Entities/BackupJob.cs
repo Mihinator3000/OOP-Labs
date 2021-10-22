@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Backups.Entities.Files;
 using Backups.Enums;
-using Backups.Tools;
 
 namespace Backups.Entities
 {
     public class BackupJob
     {
-        private readonly List<JobObject> _jobObjects = new ();
-        private readonly List<RestorePoint> _restorePoints = new ();
+        private readonly List<IJobObject> _jobObjects = new ();
+        private readonly List<IRestorePoint> _restorePoints = new ();
 
         public BackupJob(StorageTypes storageType)
         {
@@ -28,28 +28,26 @@ namespace Backups.Entities
 
         public int RestorePointsCount => _restorePoints.Count;
 
-        public void AddJobObjects(params JobObject[] jobObjects)
+        public void AddJobObjects(params IJobObject[] jobObjects)
         {
-            _jobObjects.AddRange(jobObjects);
+            _jobObjects.AddRange(jobObjects ??
+                throw new NullReferenceException(nameof(jobObjects)));
         }
 
-        public JobObject GetJobObject(string path)
+        public IJobObject GetJobObject(string path)
         {
             return _jobObjects.FirstOrDefault(u => u.Path == path);
         }
 
         public void DeleteJobObject(string path)
         {
-            JobObject jobObject = GetJobObject(path);
-            if (jobObject is null)
-                throw new BackupsException(path);
-
-            _jobObjects.Remove(GetJobObject(path));
+            _jobObjects.Remove(GetJobObject(path) ??
+                throw new NullReferenceException(path));
         }
 
-        public RestorePoint CreateRestorePoint()
+        public IRestorePoint CreateRestorePoint()
         {
-            var restorePoint = new RestorePoint(_jobObjects, StorageType, _restorePoints.Count + 1);
+            var restorePoint = new RestorePoint(_jobObjects, StorageType, RestorePointsCount + 1);
             _restorePoints.Add(restorePoint);
             restorePoint.Create(DirectoryPath);
             return restorePoint;

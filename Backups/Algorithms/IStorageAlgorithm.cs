@@ -5,6 +5,6 @@ namespace Backups.Algorithms
 {
     public interface IStorageAlgorithm
     {
-        void Create(List<JobObject> jobObjects, Storage storage);
+        void Create(List<IJobObject> jobObjects, IStorage storage);
     }
 }

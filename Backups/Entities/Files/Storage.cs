@@ -2,7 +2,7 @@
 
 namespace Backups.Entities.Files
 {
-    public class Storage
+    public class Storage : IStorage
     {
         private readonly string _directoryPath = string.Empty;
         private readonly int _number;
