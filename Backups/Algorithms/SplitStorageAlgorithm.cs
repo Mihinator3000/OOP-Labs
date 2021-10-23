@@ -10,16 +10,19 @@ namespace Backups.Algorithms
     {
         public void Create(List<IJobObject> jobObjects, IStorage storage)
         {
-            jobObjects.ForEach(u =>
+            jobObjects.ForEach(jobObject =>
             {
-                string archivePath = storage.FullPath(u.NameWithoutExtension);
+                string archivePath = storage.FullPath(jobObject.NameWithoutExtension);
 
                 if (File.Exists(archivePath))
-                    throw new BackupsException(archivePath);
+                    throw new BackupsException($"Archive {archivePath} already exists");
+
+                if (!jobObject.Exists())
+                    throw new BackupsException($"File {jobObject.Path} does not exist");
 
                 ZipArchive archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
 
-                archive.CreateEntryFromFile(u.Path, u.Name, CompressionLevel.Optimal);
+                archive.CreateEntryFromFile(jobObject.Path, jobObject.Name, CompressionLevel.Optimal);
                 archive.Dispose();
             });
         }

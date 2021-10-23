@@ -17,5 +17,8 @@ namespace Backups.Entities.Files
         public string NameWithoutExtension =>
             System.IO.Path.GetFileNameWithoutExtension(Name)
             ?? throw new BackupsException(Name);
+
+        public bool Exists() =>
+            System.IO.File.Exists(Path);
     }
 }

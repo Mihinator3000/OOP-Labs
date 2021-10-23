@@ -7,5 +7,7 @@
         string Name { get; }
 
         string NameWithoutExtension { get; }
+
+        bool Exists();
     }
 }

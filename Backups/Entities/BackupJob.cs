@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Backups.Entities.Files;
 using Backups.Enums;
+using Backups.Tools;
 
 namespace Backups.Entities
 {
@@ -47,6 +48,9 @@ namespace Backups.Entities
 
         public IRestorePoint CreateRestorePoint()
         {
+            if (_jobObjects.Count == 0)
+                throw new BackupsException("No objects to backup");
+
             var restorePoint = new RestorePoint(_jobObjects, StorageType, RestorePointsCount + 1);
             _restorePoints.Add(restorePoint);
             restorePoint.Create(DirectoryPath);
