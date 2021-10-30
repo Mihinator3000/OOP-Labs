@@ -40,10 +40,13 @@ namespace Backups.Entities
             return _jobObjects.FirstOrDefault(u => u.Path == path);
         }
 
-        public void DeleteJobObject(string path)
+        public void DeleteJobObjects(params string[] paths)
         {
-            _jobObjects.Remove(GetJobObject(path) ??
-                throw new NullReferenceException(path));
+            foreach (string path in paths)
+            {
+                _jobObjects.Remove(GetJobObject(path) ??
+                    throw new NullReferenceException(path));
+            }
         }
 
         public IRestorePoint CreateRestorePoint()

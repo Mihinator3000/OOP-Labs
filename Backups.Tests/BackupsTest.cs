@@ -44,7 +44,7 @@ namespace Backups.Tests
 
             backupJob.CreateRestorePoint();
 
-            backupJob.DeleteJobObject(FilePath2);
+            backupJob.DeleteJobObjects(FilePath2);
 
             backupJob.CreateRestorePoint();
 
@@ -94,7 +94,7 @@ namespace Backups.Tests
             backupJob.AddJobObjects(
                 new JobObject(FilePath3));
 
-            backupJob.DeleteJobObject(FilePath3);
+            backupJob.DeleteJobObjects(FilePath3);
 
             Assert.Catch<BackupsException>(() =>
             {

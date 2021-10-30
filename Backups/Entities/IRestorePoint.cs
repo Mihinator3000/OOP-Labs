@@ -6,10 +6,10 @@ namespace Backups.Entities
 {
     public interface IRestorePoint
     {
-        public DateTime CreationTime { get; }
+        DateTime CreationTime { get; }
 
-        public List<IJobObject> JobObjects { get; }
+        List<IJobObject> JobObjects { get; }
 
-        public void Create(string directoryPath);
+        void Create(string directoryPath);
     }
 }
