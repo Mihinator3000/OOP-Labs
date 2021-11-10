@@ -6,35 +6,22 @@ namespace Banks.Services.Time
     {
         private static GlobalTime _instance;
 
-        private DateTime _dateTime;
+        private TimeSpan _timeShift;
 
         private GlobalTime()
         {
-            _dateTime = DateTime.Now;
+            _timeShift = TimeSpan.Zero;
         }
 
-        public static DateTime Now
-        {
-            get => GetInstance._dateTime;
-            private set => GetInstance._dateTime = value;
-        }
+        public static DateTime Now =>
+            DateTime.Now.Add(GetInstance._timeShift);
 
-        private static GlobalTime GetInstance
-        {
-            get
-            {
-                return _instance ??= new GlobalTime();
-            }
-        }
-
-        public static void RewindTime(TimeSpan time)
-        {
-            Now -= time;
-        }
+        private static GlobalTime GetInstance =>
+            _instance ??= new GlobalTime();
 
         public static void AddTime(TimeSpan time)
         {
-            Now += time;
+           GetInstance._timeShift += time;
         }
     }
 }

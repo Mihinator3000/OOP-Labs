@@ -1,4 +1,5 @@
-﻿using Banks.Entities.Accounts.Balance;
+﻿using System;
+using Banks.Entities.Accounts.Balance;
 using Banks.Entities.Banks;
 using Banks.Entities.Clients;
 using Banks.Tools;
@@ -40,8 +41,15 @@ namespace Banks.Entities.Accounts
 
         internal override void AccrualOfPercents(BalanceState balanceState, int days)
         {
-            if (balanceState.Balance < 0)
-                Balance -= Comission * days;
+            try
+            {
+                if (balanceState.Balance < 0)
+                    Balance -= Comission * days;
+            }
+            catch (BanksException)
+            {
+                Balance = Limit;
+            }
         }
     }
 }

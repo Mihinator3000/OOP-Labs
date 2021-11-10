@@ -12,18 +12,19 @@ namespace Banks.Entities.Banks
         List<AbstractAccount> Accounts { get; }
         List<ITransaction> Transactions { get; }
 
-        public decimal MaxSummForDubiousClients { get; set; }
-        public decimal CreditComission { get; set; }
-        public decimal CreditLimit { get; set; }
-        public decimal DebitInterest { get; set; }
+        decimal MaxSummForDubiousClients { get; set; }
+        decimal CreditComission { get; set; }
+        decimal CreditLimit { get; set; }
+        decimal DebitInterest { get; set; }
 
-        public void AddAccount(IClient client, AccountTypes accountType, decimal balance);
-        public List<AbstractAccount> FindAccounts(IClient client);
-        public void DeleteAccount(AbstractAccount account);
+        AbstractAccount AddAccount(IClient client, AccountTypes accountType, decimal balance = 0);
+        List<AbstractAccount> FindAccounts(IClient client);
+        void DeleteAccount(AbstractAccount account);
 
-        public void Replenish(AbstractAccount account, decimal amount);
-        public void Transact(AbstractAccount sender, AbstractAccount receiver, decimal amount);
-        public void Withdraw(AbstractAccount account, decimal amount);
+        void Replenish(AbstractAccount account, decimal amount);
+        void Transact(AbstractAccount sender, AbstractAccount receiver, decimal amount);
+        void Transact(AbstractAccount sender, Guid receiverId, decimal amount);
+        void Withdraw(AbstractAccount account, decimal amount);
 
         void AccrualOfInterestOrCommission(object sender, EventArgs args);
     }

@@ -35,13 +35,22 @@ namespace Banks.Entities.Clients
             set
             {
                 if (value < 0)
-                    throw new BanksException(Name);
+                    throw new BanksException("User's balance can not be less than 0");
 
                 _balance = value;
             }
         }
 
         public List<string> Notifications { get; } = new ();
+
+        public void AddNotification(string notification)
+        {
+            int outdatetNotificationIndex = Notifications.IndexOf(notification);
+            if (outdatetNotificationIndex != -1)
+                Notifications.RemoveAt(outdatetNotificationIndex);
+
+            Notifications.Add(notification);
+        }
 
         public void ClearNotifications()
         {

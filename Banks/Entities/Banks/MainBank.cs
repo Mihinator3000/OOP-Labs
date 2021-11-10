@@ -68,7 +68,7 @@ namespace Banks.Entities.Banks
             });
         }
 
-        public void AccrueOfPercents()
+        public void AccruePercentage()
         {
             Notify?.Invoke(this, EventArgs.Empty);
         }

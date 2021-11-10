@@ -4,28 +4,32 @@ namespace Banks.Entities.Transactions
 {
     public class Withdrawal : ITransaction
     {
-        private readonly AbstractAccount _account;
-        private readonly decimal _amount;
-
         private readonly Cancellable _cancellable = new ();
 
         public Withdrawal(AbstractAccount account, decimal amount)
         {
-            _account = account;
-            _amount = amount;
+            Account = account;
+            Amount = amount;
         }
+
+        public AbstractAccount Account { get; }
+
+        public decimal Amount { get; }
+
+        public bool Cancelled =>
+            _cancellable.Cancelled;
 
         public ITransaction Execute()
         {
-            _account.Balance -= _amount;
-            _account.Client.Balance += _amount;
+            Account.Balance -= Amount;
+            Account.Client.Balance += Amount;
             return this;
         }
 
         public void Cancel()
         {
             _cancellable.SetCancelled();
-            new Replenishment(_account, _amount).Execute();
+            new Replenishment(Account, Amount).Execute();
         }
     }
 }

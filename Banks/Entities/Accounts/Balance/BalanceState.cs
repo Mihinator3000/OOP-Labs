@@ -3,16 +3,21 @@ using Banks.Services.Time;
 
 namespace Banks.Entities.Accounts.Balance
 {
-    public class BalanceState
+    internal class BalanceState
     {
-        public BalanceState(decimal balance)
+        internal BalanceState(decimal balance)
+            : this(balance, GlobalTime.Now)
         {
-            Balance = balance;
-            Time = GlobalTime.Now;
         }
 
-        public decimal Balance { get; }
+        internal BalanceState(decimal balance, DateTime time)
+        {
+            Balance = balance;
+            Time = time;
+        }
 
-        public DateTime Time { get; }
+        internal decimal Balance { get; }
+
+        internal DateTime Time { get; }
     }
 }

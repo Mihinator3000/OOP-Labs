@@ -69,11 +69,16 @@ namespace Banks.Entities.Banks
             }
         }
 
-        public void AddAccount(IClient client, AccountTypes accountType, decimal balance = 0)
+        public AbstractAccount AddAccount(IClient client, AccountTypes accountType, decimal balance = 0)
         {
-            Accounts.Add(
+            client.Balance -= balance;
+
+            AbstractAccount account =
                 ResolveAccountCreator(accountType)
-                    .Create(client, balance));
+                .Create(client, balance);
+
+            Accounts.Add(account);
+            return account;
         }
 
         public List<AbstractAccount> FindAccounts(IClient client)
@@ -90,7 +95,6 @@ namespace Banks.Entities.Banks
 
         public void Replenish(AbstractAccount account, decimal amount)
         {
-            CheckIfDubious(account, amount);
             Transactions.Add(new Replenishment(account, amount).Execute());
         }
 
@@ -100,8 +104,18 @@ namespace Banks.Entities.Banks
             Transactions.Add(new Transaction(sender, receiver, amount).Execute());
         }
 
+        public void Transact(AbstractAccount sender, Guid receiverId, decimal amount)
+        {
+            AbstractAccount receiver = Accounts
+                .FirstOrDefault(u => u.Id == receiverId)
+                ?? throw new BanksException($"Account {receiverId} was not found");
+
+            Transact(sender, receiver, amount);
+        }
+
         public void Withdraw(AbstractAccount account, decimal amount)
         {
+            CheckIfDubious(account, amount);
             Transactions.Add(new Withdrawal(account, amount).Execute());
         }
 
@@ -111,10 +125,10 @@ namespace Banks.Entities.Banks
 
             foreach (AbstractAccount account in Accounts)
             {
-                account.History.Add(new BalanceState(account.Balance));
+                account.History.Add(new BalanceState(account.Balance, currentTime));
 
                 var balanceStates = account.History
-                    .Where(u => u.Time > _previousAccrualTime && u.Time < currentTime)
+                    .Where(u => u.Time > _previousAccrualTime && u.Time <= currentTime)
                     .GroupBy(u => u.Time.Day)
                     .Select(u => u.Last())
                     .ToList();
@@ -161,8 +175,7 @@ namespace Banks.Entities.Banks
                 {
                     if (u.NotifyClient)
                     {
-                        u.Client.Notifications
-                            .Add(notificationMessage);
+                        u.Client.AddNotification(notificationMessage);
                     }
                 });
         }

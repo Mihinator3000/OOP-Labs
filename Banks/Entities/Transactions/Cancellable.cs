@@ -4,14 +4,14 @@ namespace Banks.Entities.Transactions
 {
     public class Cancellable
     {
-        private bool _cancelled;
+        public bool Cancelled { get; private set; }
 
         public void SetCancelled()
         {
-            if (_cancelled)
+            if (Cancelled)
                 throw new BanksException("Transaction is already cancelled");
 
-            _cancelled = true;
+            Cancelled = true;
         }
     }
 }

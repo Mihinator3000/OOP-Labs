@@ -17,6 +17,8 @@ namespace Banks.Entities.Clients
 
         List<string> Notifications { get; }
 
+        void AddNotification(string notification);
+
         void ClearNotifications();
 
         bool IsDubious();

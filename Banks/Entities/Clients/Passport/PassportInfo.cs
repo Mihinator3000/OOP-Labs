@@ -8,12 +8,12 @@ namespace Banks.Entities.Clients.Passport
     {
         public PassportInfo(string passportInfo)
         {
-            Match match = new Regex(@"^M3(\d{4})(\d{8})$")
+            Match match = new Regex(@"^(\d{4})(\d{6})$")
                 .Match(passportInfo.Replace(" ", string.Empty));
 
             if (!match.Success)
             {
-                throw new BanksException();
+                throw new BanksException("Incorrect passport information");
             }
 
             Batch = Convert.ToInt32(match.Groups[1].Value);

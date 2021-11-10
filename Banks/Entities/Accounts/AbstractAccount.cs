@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Banks.Entities.Accounts.Balance;
 using Banks.Entities.Clients;
 
@@ -9,7 +10,10 @@ namespace Banks.Entities.Accounts
         protected AbstractAccount(IClient client)
         {
             Client = client;
+            Id = Guid.NewGuid();
         }
+
+        public Guid Id { get; }
 
         public IClient Client { get; }
 

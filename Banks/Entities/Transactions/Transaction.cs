@@ -1,33 +1,42 @@
 ﻿using Banks.Entities.Accounts;
+using Banks.Tools;
 
 namespace Banks.Entities.Transactions
 {
     public class Transaction : ITransaction
     {
-        private readonly AbstractAccount _sender;
-        private readonly AbstractAccount _receiver;
-        private readonly decimal _amount;
-
         private readonly Cancellable _cancellable = new ();
 
         public Transaction(AbstractAccount sender, AbstractAccount receiver, decimal amount)
         {
-            _sender = sender;
-            _receiver = receiver;
-            _amount = amount;
+            Account = sender;
+            Receiver = receiver;
+            Amount = amount;
         }
+
+        public AbstractAccount Account { get; }
+
+        public AbstractAccount Receiver { get; }
+
+        public decimal Amount { get; }
+
+        public bool Cancelled =>
+            _cancellable.Cancelled;
 
         public ITransaction Execute()
         {
-            _sender.Balance -= _amount;
-            _receiver.Balance += _amount;
+            if (Account == Receiver)
+                throw new BanksException("Can not transact to sender");
+
+            Account.Balance -= Amount;
+            Receiver.Balance += Amount;
             return this;
         }
 
         public void Cancel()
         {
             _cancellable.SetCancelled();
-            new Transaction(_receiver, _sender, _amount).Execute();
+            new Transaction(Receiver, Account, Amount).Execute();
         }
     }
 }
