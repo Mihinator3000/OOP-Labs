@@ -41,7 +41,7 @@ namespace Banks.Client.ViewModels
             decimal.Round(Account.Balance, 3);
 
         public AbstractAccount Account { get; set; }
-        
+
         public string Type { get; }
 
         public Brush Brush { get; }

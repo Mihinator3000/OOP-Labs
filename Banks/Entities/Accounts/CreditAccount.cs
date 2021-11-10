@@ -1,5 +1,4 @@
-﻿using System;
-using Banks.Entities.Accounts.Balance;
+﻿using Banks.Entities.Accounts.Balance;
 using Banks.Entities.Banks;
 using Banks.Entities.Clients;
 using Banks.Tools;
