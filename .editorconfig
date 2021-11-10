@@ -12,8 +12,14 @@ dotnet_diagnostic.IDE0008.severity = warning
 # IDE0005: Using directive is unnecessary.
 dotnet_diagnostic.IDE0005.severity = warning
 
+# IDE0011
+dotnet_diagnostic.IDE0011.severity = none
+
 # IDE0040: Add accessibility modifiers
 dotnet_style_require_accessibility_modifiers = always
+
+# IDE0058
+csharp_style_unused_value_expression_statement_preference = discard_variable:none
 
 # IDE0090: Use 'new(...)'
 csharp_style_implicit_object_creation_when_type_is_apparent = false
@@ -41,14 +47,17 @@ dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1516.severity = none
 
 # SA1309: Field names should not begin with underscore
-dotnet_diagnostic.SA1309.severity = silent
+dotnet_diagnostic.SA1309.severity = none
 
 # SA1633: File should have header
 dotnet_diagnostic.SA1633.severity = none
 csharp_new_line_before_open_brace=all
 
 # SA1413: Use trailing comma in multi-line initializers
-dotnet_diagnostic.SA1413.severity = silent
+dotnet_diagnostic.SA1413.severity = none
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = none
 
 [*.{cs,vb}]
 dotnet_style_prefer_auto_properties=true:suggestion
@@ -76,3 +85,15 @@ dotnet_diagnostic.IDE0040.severity = warning
 
 # SA0001: XML comment analysis disabled
 dotnet_diagnostic.SA0001.severity = none
+
+# IDE0130: Namespace does not match folder structure
+dotnet_style_namespace_match_folder = false
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = none
+
+# IDE0048: Add parentheses for clarity
+dotnet_diagnostic.IDE0048.severity = none
+
+# IDE0046: Convert to conditional expression
+dotnet_style_prefer_conditional_expression_over_return = false

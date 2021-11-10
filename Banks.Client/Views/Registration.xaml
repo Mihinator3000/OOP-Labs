@@ -1,0 +1,112 @@
+﻿<Window x:Class="Banks.Client.Views.Registration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm ="clr-namespace:Banks.Client.ViewModels"
+        xmlns:local="clr-namespace:Banks.Client.Views"
+        xmlns:validations="clr-namespace:Banks.Client.Views.ValidationRules"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Registration"
+        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{wpf:MaterialDesignFont}"
+        Height="415"
+        MinHeight="415"
+        MaxHeight="415"
+        Width="400"
+        MinWidth="400"
+        MaxWidth="400">
+    <Window.DataContext>
+        <vm:RegistrationViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <StackPanel>
+            <TextBox
+                x:Name="Login"
+                FontSize="20"
+                materialDesign:HintAssist.Hint="Login:"
+                materialDesign:HintAssist.IsFloating="True">
+                <TextBox.Text>
+                    <Binding Path="Login" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <validations:NotEmptyValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox
+                x:Name="Password"
+                FontSize="20"
+                materialDesign:HintAssist.Hint="Password:"
+                materialDesign:HintAssist.IsFloating="True"
+                Margin="0, 0, 0, 10">
+                <TextBox.Text>
+                    <Binding Path="Password" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <validations:NotEmptyValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox
+                x:Name="Name"
+                FontSize="20"
+                materialDesign:HintAssist.Hint="Name:"
+                materialDesign:HintAssist.IsFloating="True">
+                <TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <validations:NotEmptyValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox
+                x:Name="Surname"
+                FontSize="20"
+                materialDesign:HintAssist.Hint="Surname:"
+                materialDesign:HintAssist.IsFloating="True">
+                <TextBox.Text>
+                    <Binding Path="Surname" UpdateSourceTrigger="LostFocus">
+                        <Binding.ValidationRules>
+                            <validations:NotEmptyValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox
+                x:Name="Address"
+                FontSize="20"
+                materialDesign:HintAssist.Hint="Address:"
+                materialDesign:HintAssist.IsFloating="True"
+                Text="{Binding Address, UpdateSourceTrigger=LostFocus}">
+            </TextBox>
+            <TextBox
+                x:Name="Passport"
+                FontSize="20"
+                materialDesign:HintAssist.Hint="Passport:"
+                materialDesign:HintAssist.IsFloating="True">
+                <TextBox.Text>
+                    <Binding Path="Passport" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validations:PassportValidation/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button
+                x:Name="SignUp"
+                Width="175"
+                HorizontalAlignment="Center"
+                Margin="10, 17.5, 10, 10"
+                Content="Sign Up"
+                Command="{Binding SignUp}">
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
