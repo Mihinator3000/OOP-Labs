@@ -8,7 +8,7 @@ namespace Backups.Algorithms
 {
     public class SplitStorageAlgorithm : IStorageAlgorithm
     {
-        public void Create(List<IJobObject> jobObjects, IStorage storage)
+        public void Create(List<AbstractJobObject> jobObjects, IStorage storage)
         {
             jobObjects.ForEach(jobObject =>
             {

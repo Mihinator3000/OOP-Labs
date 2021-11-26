@@ -1,10 +1,12 @@
 ﻿using System.IO;
+using System.Runtime.Serialization;
 
 namespace Backups.Entities.Files
 {
+    [DataContract]
     public class Storage : IStorage
     {
-        private readonly string _directoryPath = string.Empty;
+        [DataMember(Name = "Number")]
         private readonly int _number;
 
         public Storage(int number)
@@ -16,13 +18,16 @@ namespace Backups.Entities.Files
             : this(number)
         {
             if (directoryPath is not null)
-                _directoryPath = directoryPath;
+                DirectoryPath = directoryPath;
         }
 
+        [DataMember(Name = "DirectoryPath")]
+        public string DirectoryPath { get; protected set; } = string.Empty;
+
         public string FullPath() =>
-            Path.Combine(_directoryPath, $"archive_{_number}.zip");
+            Path.Combine(DirectoryPath, $"archive_{_number}.zip");
 
         public string FullPath(string filename) =>
-            Path.Combine(_directoryPath, $"{filename}_{_number}.zip");
+            Path.Combine(DirectoryPath, $"{filename}_{_number}.zip");
     }
 }

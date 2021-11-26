@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using Backups.Algorithms;
 using Backups.Entities.Files;
 using Backups.Enums;
@@ -8,23 +9,29 @@ using Backups.Tools;
 
 namespace Backups.Entities
 {
-    public class RestorePoint : IRestorePoint
+    [DataContract]
+    public class RestorePoint : AbstractRestorePoint
     {
-        private readonly StorageTypes _storageType;
-        private readonly int _number;
-
-        public RestorePoint(List<IJobObject> jobObjects, StorageTypes storageType, int number)
+        public RestorePoint(List<AbstractJobObject> jobObjects, StorageTypes storageType, int number)
         {
             JobObjects = jobObjects;
-            _storageType = storageType;
-            _number = number;
+            StorageType = storageType;
+            Number = number;
         }
 
-        public DateTime CreationTime { get; private set; }
+        [DataMember]
+        public int Number { get; protected set; }
 
-        public List<IJobObject> JobObjects { get; }
+        [DataMember]
+        public override DateTime CreationTime { get; protected set; }
 
-        public void Create(string directoryPath)
+        [DataMember]
+        public sealed override List<AbstractJobObject> JobObjects { get; protected set; }
+
+        [DataMember]
+        public StorageTypes StorageType { get; protected set; }
+
+        public override void Create(string directoryPath)
         {
             if (!string.IsNullOrWhiteSpace(directoryPath))
             {
@@ -32,8 +39,8 @@ namespace Backups.Entities
                     Directory.CreateDirectory(directoryPath);
             }
 
-            ResolveStorageType(_storageType)
-                .Create(JobObjects, new Storage(directoryPath, _number));
+            ResolveStorageType(StorageType)
+                .Create(JobObjects, new Storage(directoryPath, Number));
 
             CreationTime = DateTime.Now;
         }
