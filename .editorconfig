@@ -59,6 +59,9 @@ dotnet_diagnostic.SA1413.severity = none
 # IDE0055: Fix formatting
 dotnet_diagnostic.IDE0055.severity = none
 
+# SA1133: Do not combine attributes
+dotnet_diagnostic.SA1133.severity = none
+
 [*.{cs,vb}]
 dotnet_style_prefer_auto_properties=true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method=true:warning
