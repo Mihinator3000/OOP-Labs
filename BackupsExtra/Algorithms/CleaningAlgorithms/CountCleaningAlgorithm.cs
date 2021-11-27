@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Backups.Entities;
 using Backups.Tools;
 
 namespace BackupsExtra.Algorithms.CleaningAlgorithms
 {
-    public class CountCleaningAlgorithm : ICleaningAlgorithm
+    [DataContract]
+    public class CountCleaningAlgorithm : AbstractCleaningAlgorithm
     {
+        [DataMember(Name = "Count")]
         private readonly int _count;
 
         public CountCleaningAlgorithm(int count)
@@ -17,7 +20,7 @@ namespace BackupsExtra.Algorithms.CleaningAlgorithms
             _count = count;
         }
 
-        public List<RestorePoint> GetValidPoints(List<RestorePoint> restorePoints)
+        public override List<AbstractRestorePoint> GetValidPoints(List<AbstractRestorePoint> restorePoints)
         {
             return restorePoints
                 .TakeLast(_count)

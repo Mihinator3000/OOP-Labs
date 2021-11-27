@@ -20,9 +20,6 @@ namespace Backups.Entities
         }
 
         [DataMember]
-        public int Number { get; protected set; }
-
-        [DataMember]
         public override DateTime CreationTime { get; protected set; }
 
         [DataMember]
@@ -30,6 +27,9 @@ namespace Backups.Entities
 
         [DataMember]
         public StorageTypes StorageType { get; protected set; }
+
+        [DataMember]
+        public int Number { get; protected set; }
 
         public override void Create(string directoryPath)
         {

@@ -3,7 +3,9 @@ using System.Runtime.Serialization;
 
 namespace BackupsExtra.Loggers
 {
-    [DataContract, KnownType(typeof(ConsoleLogger)), KnownType(typeof(FileLogger))]
+    [DataContract]
+    [KnownType(typeof(FileLogger))]
+    [KnownType(typeof(ConsoleLogger))]
     public abstract class AbstractLogger
     {
         [DataMember(Name = "RecordTime")]

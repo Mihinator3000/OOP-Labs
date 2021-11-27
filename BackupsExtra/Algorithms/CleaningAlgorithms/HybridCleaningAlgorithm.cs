@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Backups.Entities;
 using BackupsExtra.Enums;
 using BackupsExtra.Tools;
 
 namespace BackupsExtra.Algorithms.CleaningAlgorithms
 {
-    public class HybridCleaningAlgorithm : ICleaningAlgorithm
+    [DataContract]
+    public class HybridCleaningAlgorithm : AbstractCleaningAlgorithm
     {
-        private readonly List<ICleaningAlgorithm> _cleaningAlgorithms;
+        [DataMember(Name = "CleaningAlgorithms")]
+        private readonly List<AbstractCleaningAlgorithm> _cleaningAlgorithms;
+
+        [DataMember(Name = "CleaningConditions")]
         private readonly CleaningConditions _cleaningConditions;
 
         public HybridCleaningAlgorithm(
             CleaningConditions cleaningConditions,
-            params ICleaningAlgorithm[] cleaningAlgorithms)
+            params AbstractCleaningAlgorithm[] cleaningAlgorithms)
         {
             if (cleaningAlgorithms is null)
                 throw new NullReferenceException(nameof(cleaningAlgorithms));
@@ -27,16 +32,18 @@ namespace BackupsExtra.Algorithms.CleaningAlgorithms
             _cleaningConditions = cleaningConditions;
         }
 
-        public List<RestorePoint> GetValidPoints(List<RestorePoint> restorePoints)
+        public override List<AbstractRestorePoint> GetValidPoints(List<AbstractRestorePoint> restorePoints)
         {
-            List<RestorePoint> validPoints = restorePoints;
+            List<AbstractRestorePoint> validPoints = _cleaningAlgorithms[0]
+                    .GetValidPoints(restorePoints);
 
-            foreach (ICleaningAlgorithm cleaningAlgorithm in _cleaningAlgorithms)
+            foreach (AbstractCleaningAlgorithm cleaningAlgorithm in _cleaningAlgorithms)
             {
                 if (validPoints.Count == 0)
                     break;
 
-                List<RestorePoint> algorithmValidPoints = cleaningAlgorithm.GetValidPoints(restorePoints);
+                List<AbstractRestorePoint> algorithmValidPoints = cleaningAlgorithm.GetValidPoints(restorePoints);
+
                 validPoints = _cleaningConditions switch
                 {
                     CleaningConditions.DoesNotFitOneLimit =>

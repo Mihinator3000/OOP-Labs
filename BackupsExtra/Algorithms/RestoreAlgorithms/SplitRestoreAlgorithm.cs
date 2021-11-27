@@ -12,7 +12,7 @@ namespace BackupsExtra.Algorithms.RestoreAlgorithms
         {
             jobObjects.ForEach(u =>
             {
-                string archivePath = storage.FullPath(u.Path);
+                string archivePath = storage.FullPath(u.NameWithoutExtension);
 
                 if (!File.Exists(archivePath))
                     throw new BackupsExtraException($"Archive does not exist");

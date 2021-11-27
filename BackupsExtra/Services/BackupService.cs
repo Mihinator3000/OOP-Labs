@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using BackupsExtra.Algorithms.ConfigAlgorithms;
+using BackupsExtra.Builders;
 using BackupsExtra.Entities;
 using BackupsExtra.Tools;
 
@@ -12,9 +13,15 @@ namespace BackupsExtra.Services
         [DataMember(Name="BackupJobs")]
         private readonly List<BackupJob> _backupJobs = new ();
 
-        public void AddBackupJob(BackupJob backupJob)
+        public BackupJob AddBackupJob(BackupJob backupJob)
         {
             _backupJobs.Add(backupJob);
+            return backupJob;
+        }
+
+        public BackupJob AddBackupJob(BackupJobBuilder backuopJobBuilder)
+        {
+            return AddBackupJob(backuopJobBuilder.Build());
         }
 
         public BackupJob GetBackupJob(int id)

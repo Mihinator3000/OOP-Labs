@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Backups.Entities.Files;
@@ -51,8 +52,11 @@ namespace Backups.Entities
         {
             foreach (string path in paths)
             {
-                _jobObjects.Remove(GetJobObject(path) ??
+                AbstractJobObject jobObject = GetJobObject(path);
+                _jobObjects.Remove(jobObject ??
                     throw new NullReferenceException(path));
+
+                File.Delete(jobObject.Path);
             }
         }
 
@@ -67,10 +71,8 @@ namespace Backups.Entities
             return restorePoint;
         }
 
-        public void AddRestorePoint(AbstractRestorePoint restorePoint)
-        {
-            _restorePoints.Add(restorePoint);
-        }
+        public List<AbstractRestorePoint> GetRestorePoints() =>
+            _restorePoints;
 
         public List<AbstractJobObject> GetJobObjects() =>
             _jobObjects;
