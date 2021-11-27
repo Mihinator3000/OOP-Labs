@@ -8,7 +8,7 @@ namespace Backups.Algorithms
 {
     public class SingleStorageAlgorithm : IStorageAlgorithm
     {
-        public void Create(List<IJobObject> jobObjects, IStorage storage)
+        public void Create(List<AbstractJobObject> jobObjects, IStorage storage)
         {
             string archivePath = storage.FullPath();
 
@@ -22,7 +22,7 @@ namespace Backups.Algorithms
             });
 
             ZipArchive archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
-            foreach (IJobObject jobObject in jobObjects)
+            foreach (AbstractJobObject jobObject in jobObjects)
             {
                 archive.CreateEntryFromFile(jobObject.Path, jobObject.Name, CompressionLevel.Optimal);
             }

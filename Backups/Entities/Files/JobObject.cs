@@ -1,24 +1,27 @@
-﻿using Backups.Tools;
+﻿using System.Runtime.Serialization;
+using Backups.Tools;
 
 namespace Backups.Entities.Files
 {
-    public class JobObject : IJobObject
+    [DataContract]
+    public class JobObject : AbstractJobObject
     {
         public JobObject(string path)
         {
             Path = path;
         }
 
-        public string Path { get; }
+        [DataMember]
+        public sealed override string Path { get; protected set; }
 
-        public string Name =>
+        public override string Name =>
             System.IO.Path.GetFileName(Path);
 
-        public string NameWithoutExtension =>
+        public override string NameWithoutExtension =>
             System.IO.Path.GetFileNameWithoutExtension(Name)
             ?? throw new BackupsException(Name);
 
-        public bool Exists() =>
+        public override bool Exists() =>
             System.IO.File.Exists(Path);
     }
 }

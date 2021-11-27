@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using Backups.Entities.Files;
 using Backups.Enums;
 using Backups.Tools;
 
 namespace Backups.Entities
 {
+    [DataContract]
     public class BackupJob
     {
-        private readonly List<IJobObject> _jobObjects = new ();
-        private readonly List<IRestorePoint> _restorePoints = new ();
+        [DataMember(Name = "JobObjects")]
+        private readonly List<AbstractJobObject> _jobObjects = new ();
+
+        [DataMember(Name="RestorePoints")]
+        private readonly List<AbstractRestorePoint> _restorePoints = new ();
 
         public BackupJob(StorageTypes storageType)
         {
@@ -23,19 +29,21 @@ namespace Backups.Entities
             DirectoryPath = directoryPath;
         }
 
-        public string DirectoryPath { get; }
+        [DataMember]
+        public string DirectoryPath { get; protected set; }
 
-        public StorageTypes StorageType { get; }
+        [DataMember]
+        public StorageTypes StorageType { get; protected set; }
 
         public int RestorePointsCount => _restorePoints.Count;
 
-        public void AddJobObjects(params IJobObject[] jobObjects)
+        public void AddJobObjects(params AbstractJobObject[] jobObjects)
         {
             _jobObjects.AddRange(jobObjects ??
                 throw new NullReferenceException(nameof(jobObjects)));
         }
 
-        public IJobObject GetJobObject(string path)
+        public AbstractJobObject GetJobObject(string path)
         {
             return _jobObjects.FirstOrDefault(u => u.Path == path);
         }
@@ -44,12 +52,15 @@ namespace Backups.Entities
         {
             foreach (string path in paths)
             {
-                _jobObjects.Remove(GetJobObject(path) ??
+                AbstractJobObject jobObject = GetJobObject(path);
+                _jobObjects.Remove(jobObject ??
                     throw new NullReferenceException(path));
+
+                File.Delete(jobObject.Path);
             }
         }
 
-        public IRestorePoint CreateRestorePoint()
+        public AbstractRestorePoint CreateRestorePoint()
         {
             if (_jobObjects.Count == 0)
                 throw new BackupsException("No objects to backup");
@@ -59,5 +70,11 @@ namespace Backups.Entities
             restorePoint.Create(DirectoryPath);
             return restorePoint;
         }
+
+        public List<AbstractRestorePoint> GetRestorePoints() =>
+            _restorePoints;
+
+        public List<AbstractJobObject> GetJobObjects() =>
+            _jobObjects;
     }
 }
