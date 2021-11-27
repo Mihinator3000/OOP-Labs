@@ -12,7 +12,7 @@ using BackupsExtra.Services;
 
 namespace BackupsExtra
 {
-    internal class Program
+    internal static class Program
     {
         private const string DirectoryName = "Backups";
 
@@ -73,9 +73,9 @@ namespace BackupsExtra
 
         private static void LaunchSystemFromConfig()
         {
-            BackupService loadedbackupService = new ConfigHandler().Load();
+            BackupService loadedBackupService = new ConfigHandler().Load();
 
-            BackupJob loadedBackupJob = loadedbackupService.GetBackupJob(0);
+            BackupJob loadedBackupJob = loadedBackupService.GetBackupJob(0);
 
             loadedBackupJob.CreateRestorePoint();
 
