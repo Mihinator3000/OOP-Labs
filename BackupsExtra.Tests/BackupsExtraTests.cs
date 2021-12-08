@@ -18,7 +18,7 @@ namespace BackupsExtra.Tests
 {
     public class Tests
     {
-        private const string DirectoryName = "Backups";
+        private const string DirectoryName = "";
 
         private const string FilePath1 = "FileA.txt";
         private const string FilePath2 = "FileB.exe";
