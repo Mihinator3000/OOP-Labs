@@ -18,8 +18,6 @@ namespace BackupsExtra.Tests
 {
     public class Tests
     {
-        private const string DirectoryName = "Backups";
-
         private const string FilePath1 = "FileA.txt";
         private const string FilePath2 = "FileB.exe";
         
@@ -42,8 +40,15 @@ namespace BackupsExtra.Tests
             File.Delete(FilePath1);
             File.Delete(FilePath2);
 
-            if (Directory.Exists(DirectoryName))
-                Directory.Delete(DirectoryName, true);
+            DirectoryInfo[] directories = new DirectoryInfo(
+                AppDomain.CurrentDomain.BaseDirectory)
+                .GetDirectories("*DirectoryName*");
+
+            foreach (DirectoryInfo directoryInfo in directories)
+            {
+                if (Directory.Exists(directoryInfo.Name))
+                    Directory.Delete(directoryInfo.Name, true);
+            }
         }
 
         [Test]
@@ -55,7 +60,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName1")
                     .SetStorageType(StorageTypes.SplitStorage)
                     .SetLogger(new ConsoleLogger())
                     .SetCleaningAlgorithm(new CountCleaningAlgorithm(maxNumberOfPoints)));
@@ -80,7 +85,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName2")
                     .SetStorageType(StorageTypes.SingleStorage)
                     .SetLogger(new ConsoleLogger())
                     .SetCleaningAlgorithm(
@@ -113,7 +118,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName3")
                     .SetStorageType(StorageTypes.SingleStorage)
                     .SetLogger(new ConsoleLogger())
                     .SetCleaningAlgorithm(cleaningAlgorithm));
@@ -140,7 +145,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName4")
                     .SetStorageType(StorageTypes.SplitStorage)
                     .SetLimitBehavior(LimitBehavior.Merge)
                     .SetLogger(new ConsoleLogger())
@@ -160,7 +165,7 @@ namespace BackupsExtra.Tests
             Assert.That(backupJob.RestorePointsCount is 1);
             Assert.That(remainingPoint.JobObjects.Count is 2);
 
-            string newFileName = new Storage(DirectoryName, 2).FullPath(WithoutExtensions1);
+            string newFileName = new Storage("DirectoryName4", 2).FullPath(WithoutExtensions1);
             Console.WriteLine(newFileName);
             Assert.That(File.Exists(newFileName));
             Assert.Less(File.GetCreationTime(newFileName), remainingPoint.CreationTime);
@@ -181,7 +186,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName5")
                     .SetStorageType(StorageTypes.SingleStorage)
                     .SetLogger(new FileLogger()));
 
@@ -203,7 +208,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName6")
                     .SetStorageType(StorageTypes.SplitStorage)
                     .SetLogger(new ConsoleLogger())
                     .SetCleaningAlgorithm(new CountCleaningAlgorithm(5)));
@@ -224,7 +229,7 @@ namespace BackupsExtra.Tests
 
             BackupJob loadedBackupJob = backupService.GetBackupJob(0);
 
-            Assert.AreEqual(DirectoryName, loadedBackupJob.DirectoryPath);
+            Assert.AreEqual("DirectoryName6", loadedBackupJob.DirectoryPath);
             Assert.AreEqual(StorageTypes.SplitStorage, loadedBackupJob.StorageType);
 
             Assert.That(loadedBackupJob.RestorePointsCount is 2);
@@ -241,7 +246,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName7")
                     .SetStorageType(StorageTypes.SplitStorage)
                     .SetLogger(new ConsoleLogger())
                     .SetCleaningAlgorithm(new CountCleaningAlgorithm(5)));
@@ -271,7 +276,7 @@ namespace BackupsExtra.Tests
             BackupJob backupJob = _backupService
                 .AddBackupJob(
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName8")
                     .SetStorageType(StorageTypes.SingleStorage)
                     .SetLogger(new ConsoleLogger())
                     .SetCleaningAlgorithm(new CountCleaningAlgorithm(5)));
@@ -304,7 +309,7 @@ namespace BackupsExtra.Tests
             Assert.Catch<BackupsExtraException>(() =>
             {
                 new BackupJobBuilder()
-                    .SetDirectoryPath(DirectoryName)
+                    .SetDirectoryPath("DirectoryName9")
                     .Build();
             });
         }
