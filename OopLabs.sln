@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31410.414
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isu", "Isu\Isu.csproj", "{8567F59D-B6FA-4478-A4AE-4B137AC7BAE7}"
 EndProject
@@ -20,17 +20,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backups", "Backups\Backups.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackupsExtra", "BackupsExtra\BackupsExtra.csproj", "{B7E8331B-7753-42AD-A499-EDBF81F8287C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsuExtra.Tests", "IsuExtra.Tests\IsuExtra.Tests.csproj", "{76F496C6-EE25-492E-81A5-8AD9B938C148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsuExtra.Tests", "IsuExtra.Tests\IsuExtra.Tests.csproj", "{76F496C6-EE25-492E-81A5-8AD9B938C148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Tests", "Shops.Tests\Shops.Tests.csproj", "{355C9405-3A4C-4020-A660-32F733B578B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.Tests", "Shops.Tests\Shops.Tests.csproj", "{355C9405-3A4C-4020-A660-32F733B578B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backups.Tests", "Backups.Tests\Backups.Tests.csproj", "{798892D6-EECC-4C27-BB43-FD8BD26133CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backups.Tests", "Backups.Tests\Backups.Tests.csproj", "{798892D6-EECC-4C27-BB43-FD8BD26133CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupsExtra.Tests", "BackupsExtra.Tests\BackupsExtra.Tests.csproj", "{292B4B3A-0991-4B13-882C-7C297B3882B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackupsExtra.Tests", "BackupsExtra.Tests\BackupsExtra.Tests.csproj", "{292B4B3A-0991-4B13-882C-7C297B3882B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banks", "Banks\Banks.csproj", "{F631B30C-A6DE-46B0-99B7-A75FBB6911F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banks", "Banks\Banks.csproj", "{F631B30C-A6DE-46B0-99B7-A75FBB6911F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banks.Tests", "Banks.Tests\Banks.Tests.csproj", "{3845CD18-DD04-4B8F-B0DC-74EF9354F6DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banks.Tests", "Banks.Tests\Banks.Tests.csproj", "{3845CD18-DD04-4B8F-B0DC-74EF9354F6DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banks.Client", "Banks.Client\Banks.Client.csproj", "{3D89D91F-E7CE-4249-9853-FD36194A52AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Common", "Reports.Common\Reports.Common.csproj", "{497E7FDC-1711-4507-8E57-DE0B780ED25A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.DataAccessLayer", "Reports.DataAccessLayer\Reports.DataAccessLayer.csproj", "{49F23D06-FEC5-4B96-A264-77B19341F46E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Api", "Reports.Api\Reports.Api.csproj", "{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Client", "Reports.Client\Reports.Client.csproj", "{120BB8C5-3759-4383-AB86-3FEC5CCAE828}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +96,26 @@ Global
 		{3845CD18-DD04-4B8F-B0DC-74EF9354F6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3845CD18-DD04-4B8F-B0DC-74EF9354F6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3845CD18-DD04-4B8F-B0DC-74EF9354F6DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D89D91F-E7CE-4249-9853-FD36194A52AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D89D91F-E7CE-4249-9853-FD36194A52AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D89D91F-E7CE-4249-9853-FD36194A52AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D89D91F-E7CE-4249-9853-FD36194A52AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{497E7FDC-1711-4507-8E57-DE0B780ED25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{497E7FDC-1711-4507-8E57-DE0B780ED25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{497E7FDC-1711-4507-8E57-DE0B780ED25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{497E7FDC-1711-4507-8E57-DE0B780ED25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F23D06-FEC5-4B96-A264-77B19341F46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F23D06-FEC5-4B96-A264-77B19341F46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F23D06-FEC5-4B96-A264-77B19341F46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F23D06-FEC5-4B96-A264-77B19341F46E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120BB8C5-3759-4383-AB86-3FEC5CCAE828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120BB8C5-3759-4383-AB86-3FEC5CCAE828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120BB8C5-3759-4383-AB86-3FEC5CCAE828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120BB8C5-3759-4383-AB86-3FEC5CCAE828}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

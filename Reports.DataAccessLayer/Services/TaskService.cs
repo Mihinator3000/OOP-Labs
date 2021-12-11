@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Reports.Common.DataTransferObjects;
+using Reports.Common.Enums;
 using Reports.Common.Tools;
 using Reports.DataAccessLayer.Entities;
 using Reports.DataAccessLayer.Services.Interfaces;
@@ -19,22 +20,74 @@ namespace Reports.DataAccessLayer.Services
             _context = context ?? throw new NullReferenceException(nameof(context));
         }
 
-        public async Task<List<UserDto>> GetAll()
+        public async Task<List<TaskDto>> GetAll()
         {
-            return await _context.Users.Select(u => u.ToDto()).ToListAsync();
+            return await GetDbTasks()
+                .Select(u => u.ToDto())
+                .ToListAsync();
         }
 
-        public async Task<UserDto> GetById(int id)
+        public async Task<TaskDto> GetById(int id)
         {
-            DbUser dbUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == id)
-                            ?? throw new ReportsDbException($"User with id {id} was not found in database");
-
-            return dbUser.ToDto();
+            DbTask dbTask = await GetDbTask(id);
+            return dbTask.ToDto();
         }
 
-        public async Task Create(UserDto user)
+        public async Task<List<TaskDto>> GetForCreation(DateTime time)
         {
-            await _context.Users.AddAsync(DbUser.FromDto(user));
+            List<TaskDto> tasks = await GetAll();
+            return tasks
+                .Where(u => u.CreationTime.Date == time.Date)
+                .ToList();
+        }
+
+        public async Task<List<TaskDto>> GetForLastChange(DateTime time)
+        {
+            List<TaskDto> tasks = await GetAll();
+            return tasks
+                .Where(u => u.Changes
+                    .Last().Time.Date == time.Date)
+                .ToList();
+        }
+
+        public async Task<List<TaskDto>> GetForUser(int userId)
+        {
+            List<TaskDto> tasks = await GetAll();
+            return tasks
+                .Where(u => u.AssignedUser is not null
+                            && u.AssignedUser.Id == userId)
+                .ToList();
+        }
+
+        public async Task<List<TaskDto>> GetForUserChanges(int userId)
+        {
+            List<TaskDto> tasks = await GetAll();
+            return tasks
+                .Where(u => u.Changes
+                    .Any(c => c.User.Id == userId))
+                .ToList();
+        }
+
+        public async Task<List<TaskDto>> GetForSubordinates(int userId)
+        {
+            UserInfoDto user = await new UserService(_context).GetById(userId);
+
+            var tasks = new List<TaskDto>();
+            foreach (UserDto subordinate in user.Subordinates)
+            {
+                tasks.AddRange(await GetForUser(subordinate.Id));
+            }
+
+            return tasks;
+        }
+
+        public async Task Create(TaskDto task)
+        {
+            var dbTask = DbTask.FromDto(task);
+            dbTask.CreationTime = DateTime.Now;
+            dbTask.State = TaskStates.Open;
+
+            await _context.Tasks.AddAsync(dbTask);
 
             try
             {
@@ -42,32 +95,39 @@ namespace Reports.DataAccessLayer.Services
             }
             catch (DbUpdateException)
             {
-                throw new ReportsDbException("User was not added to database");
+                throw new ReportsDbException("Task was not added to database");
             }
         }
 
-        public async Task Delete(int id)
+        public async Task Update(TaskDto task, int userId)
         {
-            DbUser dbUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == id)
-                ?? throw new ReportsDbException($"User with id {id} was not found in database");
+            DbTask dbTask = await GetDbTask(task.Id);
 
-            _context.Users.Remove(dbUser);
+            DbUser dbUser = await new UserService(_context).GetDbUser(userId);
 
-            try
+            if (dbTask.Description != task.Description)
             {
-                await _context.SaveChangesAsync();
+                dbTask.Changes.Add(new DbChange
+                {
+                    Time = DateTime.Now,
+                    ChangeType = TaskChangeTypes.Description,
+                    Message = task.Description,
+                    User = dbUser
+                });
             }
-            catch (DbUpdateException)
+
+            if (dbTask.State != task.State)
             {
-                throw new ReportsDbException("User was not deleted from database");
+                dbTask.Changes.Add(new DbChange
+                {
+                    Time = DateTime.Now,
+                    ChangeType = TaskChangeTypes.State,
+                    Message = task.State.ToString(),
+                    User = dbUser
+                });
             }
-        }
 
-        public async Task Update(UserDto user)
-        {
-            DbUser dbUser = await _context.Users.SingleOrDefaultAsync(u => u.Id == user.Id);
-
-            dbUser.Update(user);
+            dbTask.Update(task);
 
             try
             {
@@ -78,14 +138,91 @@ namespace Reports.DataAccessLayer.Services
                 throw new ReportsDbException("User was not updated");
             }
         }
-        /*- GetAll
-- поиск задач по ID
-- поиск задач по времени создания/последнего изменения
-- поиск задач, закреплённых за определённым пользователем(сотрудником команды)
-- поиск задач, в которые пользователь вносил изменения
-- создание задачи, изменение её состояния, добавления к ней комментария, изменение назначенного за ней сотрудника
-- получение списка задач, которые назначены подчинённым определённого сотрудника
-- Добавление задачи, обновление описания задачи
-- Изменение человека, который заасайнен*/
+
+        public async Task Delete(int id)
+        {
+            DbTask dbTask = await GetDbTask(id);
+
+            _context.Tasks.Remove(dbTask);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new ReportsDbException("Task was not deleted from database");
+            }
+        }
+
+        public async Task AddComment(int id, int userId, CommentDto comment)
+        {
+            DbTask task = await GetDbTask(id);
+            task.Comments.Add(DbComment.FromDto(comment));
+            task.Changes.Add(new DbChange
+            {
+                Time = DateTime.Now,
+                ChangeType = TaskChangeTypes.Comment,
+                Message = comment.Commentary,
+                User = await new UserService(_context).GetDbUser(userId)
+            });
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new ReportsDbException("Comment for task was not created");
+            }
+        }
+
+        public async Task ChangeAssignedUser(int id, int userId)
+        {
+            DbUser dbUser = await new UserService(_context).GetDbUser(userId);
+
+            DbTask task = await GetDbTask(id);
+
+            if (task.AssignedUser is not null)
+            {
+                if (task.AssignedUser.Id == userId)
+                    throw new ReportsDbException("User already assigned to the task");
+
+                task.Changes.Add(new DbChange
+                {
+                    Time = DateTime.Now,
+                    ChangeType = TaskChangeTypes.AssignedUser,
+                    Message = userId.ToString(),
+                    User = dbUser
+                });
+            }
+
+            task.AssignedUser = dbUser;
+            
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new ReportsDbException("Assigned user was not updated");
+            }
+        }
+
+        private async Task<DbTask> GetDbTask(int id)
+        {
+            return await GetDbTasks()
+                       .SingleOrDefaultAsync(u => u.Id == id) 
+                   ?? throw new ReportsDbException($"Task with id {id} was not found in database");
+        }
+
+        private IQueryable<DbTask> GetDbTasks()
+        {
+            return _context.Tasks
+                .Include(u => u.AssignedUser)
+                .Include(u => u.Changes)
+                    .ThenInclude(u => u.User)
+                .Include(u => u.Comments);
+        }
     }
 }

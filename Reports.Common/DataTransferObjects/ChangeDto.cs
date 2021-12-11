@@ -5,12 +5,14 @@ namespace Reports.Common.DataTransferObjects
 {
     public class ChangeDto
     {
-        public int Id { get; init; }
+        public int Id { get; set; }
 
-        public DateTime Time { get; init; }
+        public DateTime Time { get; set; }
 
-        public TaskChangeTypes ChangeType { get; init; }
+        public TaskChangeTypes ChangeType { get; set; }
         
-        public string Message { get; init; }
+        public string Message { get; set; }
+
+        public UserDto User { get; set; }
     }
 }

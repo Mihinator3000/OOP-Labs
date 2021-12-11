@@ -14,6 +14,8 @@ namespace Reports.DataAccessLayer.Entities
 
         public string Message { get; set; }
 
+        public DbUser User { get; set; }
+
         public static DbChange FromDto(ChangeDto change)
         {
             return new DbChange
@@ -21,7 +23,8 @@ namespace Reports.DataAccessLayer.Entities
                 Id = change.Id,
                 Time = change.Time,
                 ChangeType = change.ChangeType,
-                Message = change.Message
+                Message = change.Message,
+                User = DbUser.FromDto(change.User)
             };
         }
 
@@ -32,7 +35,8 @@ namespace Reports.DataAccessLayer.Entities
                 Id = Id,
                 Time = Time,
                 ChangeType = ChangeType,
-                Message = Message
+                Message = Message,
+                User = User.ToDto()
             };
         }
     }

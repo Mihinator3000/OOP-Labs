@@ -1,5 +1,4 @@
 ﻿using Reports.Common.DataTransferObjects;
-using Reports.Common.Enums;
 
 namespace Reports.DataAccessLayer.Entities
 {
@@ -7,7 +6,7 @@ namespace Reports.DataAccessLayer.Entities
     {
         public int Id { get; set; }
 
-        public UserTypes UserType { get; set; }
+        public string Name { get; set; }
 
         public int? LeaderId { get; set; }
 
@@ -21,7 +20,7 @@ namespace Reports.DataAccessLayer.Entities
         public void Update(UserDto user)
         {
             Id = user.Id;
-            UserType = user.UserType;
+            Name = user.Name;
             LeaderId = user.LeaderId;
         }
 
@@ -30,7 +29,7 @@ namespace Reports.DataAccessLayer.Entities
             return new UserDto
             {
                 Id = Id,
-                UserType = UserType,
+                Name = Name,
                 LeaderId = LeaderId
             };
         }

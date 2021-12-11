@@ -1,12 +1,10 @@
-﻿using Reports.Common.Enums;
-
-namespace Reports.Common.DataTransferObjects
+﻿namespace Reports.Common.DataTransferObjects
 {
     public class UserDto
     {
         public int Id { get; set; }
 
-        public UserTypes UserType { get; init; }
+        public string Name { get; set; }
 
         public int? LeaderId { get; set; }
     }

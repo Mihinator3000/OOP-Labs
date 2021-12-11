@@ -28,7 +28,7 @@ namespace Reports.Api.Controllers
 
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<ActionResult<UserDto>> GetById(int id)
+        public async Task<ActionResult<UserInfoDto>> GetById(int id)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Reports.Api.Controllers
         }
 
         [HttpPost]
-        [Route("create/")]
+        [Route("create")]
         public async Task<ActionResult> Create([FromBody]UserDto user)
         {
             try
@@ -71,7 +71,7 @@ namespace Reports.Api.Controllers
         }
 
         [HttpPost]
-        [Route("update/")]
+        [Route("update")]
         public async Task<ActionResult> Update([FromBody]UserDto user)
         {
             try

@@ -3,18 +3,23 @@
     public enum TaskChangeTypes
     {
         /// <summary>
-        /// Status of the task changed
+        /// State of the task changed
         /// </summary>
-        Status = 1,
+        State = 1,
 
         /// <summary>
         /// Changed assigned employee
         /// </summary>
-        Employee = 2,
+        AssignedUser = 2,
 
         /// <summary>
         /// Comment added to the task
         /// </summary>
-        Comment = 3
+        Comment = 3,
+
+        /// <summary>
+        /// Description was changed
+        /// </summary>
+        Description = 4
     }
 }

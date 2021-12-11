@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Reports.Common.DataTransferObjects;
 using Reports.Common.Enums;
@@ -9,18 +10,33 @@ namespace Reports.DataAccessLayer.Entities
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+        
         public TaskStates State { get; set; }
 
-        public List<DbChange> Changes { get; set; }
+        public DateTime CreationTime { get; set; }
+
+        public List<DbChange> Changes { get; set; } = new ();
+
+        public DbUser AssignedUser { get; set; }
+
+        public List<DbComment> Comments { get; set; } = new ();
 
         public static DbTask FromDto(TaskDto task)
         {
-            return new DbTask
-            {
-                Id = task.Id,
-                State = task.State,
-                Changes = task.Changes.Select(DbChange.FromDto).ToList(),
-            };
+            var dbTask = new DbTask();
+            dbTask.Update(task);
+            return dbTask;
+        }
+
+        public void Update(TaskDto task)
+        {
+            Id = task.Id;
+            Name = task.Name;
+            Description = task.Description;
+            State = task.State;
         }
 
         public TaskDto ToDto()
@@ -28,8 +44,13 @@ namespace Reports.DataAccessLayer.Entities
             return new TaskDto
             {
                 Id = Id,
+                Name = Name,
+                Description = Description,
                 State = State,
-                Changes = Changes.Select(u => u.ToDto()).ToList()
+                CreationTime = CreationTime,
+                AssignedUser = AssignedUser?.ToDto(),
+                Comments = Comments?.Select(u => u.ToDto()).ToList(),
+                Changes = Changes?.Select(u => u.ToDto()).ToList()
             };
         }
     }

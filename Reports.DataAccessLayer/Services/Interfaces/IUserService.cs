@@ -8,7 +8,7 @@ namespace Reports.DataAccessLayer.Services.Interfaces
     {
         Task<List<UserDto>> GetAll();
 
-        Task<UserDto> GetById(int id);
+        Task<UserInfoDto> GetById(int id);
 
         Task Create(UserDto user);
 

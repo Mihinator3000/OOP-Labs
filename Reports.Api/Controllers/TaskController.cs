@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Reports.DataAccessLayer;
-using Reports.DataAccessLayer.Entities;
+using Reports.Common.DataTransferObjects;
+using Reports.Common.Tools;
+using Reports.DataAccessLayer.Services.Interfaces;
 
 namespace Reports.Api.Controllers
 {
@@ -13,79 +12,149 @@ namespace Reports.Api.Controllers
     [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
-        private readonly ReportsContext _context;
+        private readonly ITaskService _taskService;
 
-        public TaskController(ReportsContext context)
+        public TaskController(ITaskService taskService)
         {
-            _context = context ?? throw new NullReferenceException(nameof(context));
-            /*if (!_context.Tasks.Any())
-            {
-                _context.Tasks.Add(new DbTask { State = 10 });
-                _context.Tasks.Add(new DbTask { State = 20 });
-                _context.SaveChanges();
-            }*/
+            _taskService = taskService ?? throw new NullReferenceException(nameof(taskService));
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DbTask>>> Get()
+        [Route("get/all")]
+        public async Task<ActionResult<List<TaskDto>>> GetAll()
         {
-            return await _context.Tasks.ToListAsync();
+            return Ok(await _taskService.GetAll());
         }
 
-        // GET api/Tasks/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DbTask>> Get(int id)
+        [HttpGet]
+        [Route("get/{id}")]
+        public async Task<ActionResult<TaskDto>> GetById(int id)
         {
-            DbTask user = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null)
+            try
+            {
+                return Ok(await _taskService.GetById(id));
+            }
+            catch (ReportsDbException)
+            {
                 return NotFound();
-            return new ObjectResult(user);
+            }
         }
 
-        // POST api/Tasks
+        [HttpGet]
+        [Route("get/creation")]
+        public async Task<ActionResult<List<TaskDto>>> GetForCreation([FromBody] DateTimeDto time)
+        {
+            return Ok(await _taskService.GetForCreation(time));
+        }
+
+        [HttpGet]
+        [Route("get/lastChange")]
+        public async Task<ActionResult<List<TaskDto>>> GetForLastChange([FromBody] DateTimeDto time)
+        {
+            return Ok(await _taskService.GetForLastChange(time));
+        }
+
+        [HttpGet]
+        [Route("get/user/{userId}")]
+        public async Task<ActionResult<List<TaskDto>>> GetForUser(int userId)
+        {
+            return Ok(await _taskService.GetForUser(userId));
+        }
+
+        [HttpGet]
+        [Route("get/userChanges/{userId}")]
+        public async Task<ActionResult<List<TaskDto>>> GetForUserChanges(int userId)
+        {
+            return Ok(await _taskService.GetForUserChanges(userId));
+        }
+
+        [HttpGet]
+        [Route("get/userSubordinates/{userId}")]
+        public async Task<ActionResult<List<TaskDto>>> GetForSubordinates(int userId)
+        {
+            try
+            {
+                return Ok(await _taskService.GetForSubordinates(userId));
+            }
+            catch (ReportsDbException)
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
-        public async Task<ActionResult<DbTask>> Post(DbTask user)
+        [Route("create")]
+        public async Task<ActionResult> Create([FromBody] TaskDto task)
         {
-            if (user == null)
+            try
+            {
+                await _taskService.Create(task);
+                return Ok();
+            }
+            catch (ReportsDbException)
             {
                 return BadRequest();
             }
-
-            _context.Tasks.Add(user);
-            await _context.SaveChangesAsync();
-            return Ok(user);
         }
 
-        // PUT api/Tasks/
-        [HttpPut]
-        public async Task<ActionResult<DbTask>> Put(DbTask user)
+        [HttpPost]
+        [Route("update/user/{userId}")]
+        public async Task<ActionResult> Update([FromBody] TaskDto task, int userId)
         {
-            if (user == null)
+            try
+            {
+                await _taskService.Update(task, userId);
+                return Ok();
+            }
+            catch (ReportsDbException)
             {
                 return BadRequest();
             }
-            if (!_context.Tasks.Any(x => x.Id == user.Id))
-            {
-                return NotFound();
-            }
-
-            _context.Update(user);
-            await _context.SaveChangesAsync();
-            return Ok(user);
         }
 
-        // DELETE api/Tasks/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<DbTask>> Delete(int id)
+        [HttpPost]
+        [Route("delete/{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
-            DbTask user = _context.Tasks.FirstOrDefault(x => x.Id == id);
-            if (user == null)
+            try
+            {
+                await _taskService.Delete(id);
+                return Ok();
+            }
+            catch (ReportsDbException)
             {
                 return NotFound();
             }
-            _context.Tasks.Remove(user);
-            await _context.SaveChangesAsync();
-            return Ok(user);
+        }
+
+        [HttpPost]
+        [Route("comment/{id}/user/{userId}")]
+        public async Task<ActionResult> AddComment([FromBody] CommentDto comment, int id, int userId)
+        {
+            try
+            {
+                await _taskService.AddComment(id, userId, comment);
+                return Ok();
+            }
+            catch (ReportsDbException)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("assign/{id}/user/{userId}")]
+        public async Task<ActionResult> ChangeAssignedUser(int id, int userId)
+        {
+            try
+            {
+                await _taskService.ChangeAssignedUser(id, userId);
+                return Ok();
+            }
+            catch (ReportsDbException)
+            {
+                return BadRequest();
+            }
         }
     }
 }
