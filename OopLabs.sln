@@ -34,13 +34,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banks.Tests", "Banks.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banks.Client", "Banks.Client\Banks.Client.csproj", "{3D89D91F-E7CE-4249-9853-FD36194A52AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Common", "Reports.Common\Reports.Common.csproj", "{497E7FDC-1711-4507-8E57-DE0B780ED25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Common", "Reports\Reports.Common\Reports.Common.csproj", "{497E7FDC-1711-4507-8E57-DE0B780ED25A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.DataAccessLayer", "Reports.DataAccessLayer\Reports.DataAccessLayer.csproj", "{49F23D06-FEC5-4B96-A264-77B19341F46E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.DataAccessLayer", "Reports\Reports.DataAccessLayer\Reports.DataAccessLayer.csproj", "{49F23D06-FEC5-4B96-A264-77B19341F46E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Api", "Reports.Api\Reports.Api.csproj", "{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Api", "Reports\Reports.Api\Reports.Api.csproj", "{AA08A321-57F0-447B-94FE-D7BE7B9AE2EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Client", "Reports.Client\Reports.Client.csproj", "{120BB8C5-3759-4383-AB86-3FEC5CCAE828}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Client", "Reports\Reports.Client\Reports.Client.csproj", "{120BB8C5-3759-4383-AB86-3FEC5CCAE828}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
